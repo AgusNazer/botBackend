@@ -1,5 +1,7 @@
 package com.agusdev.bottrading.controllers;
 
+import com.agusdev.bottrading.BinanceService;
+
 import com.agusdev.bottrading.entity.BotEntity;
 import com.agusdev.bottrading.services.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,24 @@ import java.util.Optional;
 @RequestMapping("/api/bots")
 public class BotController {
 
+    //////////BINANCE PRICES
+    @Autowired
+    private BinanceService binanceService;
+    // Obtener el precio de una criptomoneda (Ejemplo: BTCUSDT)
+    @GetMapping("/price")
+    public ResponseEntity<String> getCryptoPrice(@RequestParam String symbol) {
+        try {
+            String price = binanceService.getPrice(symbol);
+            return ResponseEntity.ok(price); // Devuelve el precio en la respuesta
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error obteniendo el precio");
+        }
+    }
+
     @Autowired
     private BotService botService;
 
+    
     // Obtener todos los bots
     @GetMapping
     public List<BotEntity> getAllBots() {
