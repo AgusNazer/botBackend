@@ -1,0 +1,6 @@
+endpoints 
+get crypto by ticker
+http://localhost:8080/api/crypto/data?symbol=BTCUSDT
+
+getTop100Cryptos
+http://localhost:8080/api/crypto/top-100
