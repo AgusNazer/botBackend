@@ -12,9 +12,6 @@ public class BottradingApplication {
 		 // Ejecuta la aplicación Spring Boot y obtiene el contexto
 		 ConfigurableApplicationContext context = SpringApplication.run(BottradingApplication.class, args);
 
-		// Instancia del servicio con las claves API
-		//  String apiKey = "USBdYlrWJC3bmjI0ELNRagQegByX5Exe7w817ytoaT0poMsAzblaIYl70aK9ry9n";
-		//  String secretKey = "U5hBLlOR7O3dwRv5bHIsjTSldnUyEz1dPWkGgfQbSxc5W4rQIOedgmXOd6pUiiol";
 		 BinanceService binanceService = context.getBean(BinanceService.class);
  
 		 // Prueba del método getPrice
