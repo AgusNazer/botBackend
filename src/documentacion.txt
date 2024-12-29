@@ -4,3 +4,18 @@ http://localhost:8080/api/crypto/data?symbol=BTCUSDT
 
 getTop100Cryptos
 http://localhost:8080/api/crypto/top-100
+
+
+registro de horas de desarrollo
+20-12-24 - 2
+21-12-24 - 2
+22-12-24 - 2
+23-12-24 - 1
+24-12-24 - 0
+25-12-24 - 1
+26-12-24 - 3
+27-12-24 - 
+28-12-24 - 
+29-12-24 - 
+30-12-24 - 
+31-12-24 - 

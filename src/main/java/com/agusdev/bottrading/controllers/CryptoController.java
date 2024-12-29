@@ -27,9 +27,6 @@ public class CryptoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error obteniendo el precio");
         }
     }
-    //swagger DOC
-    
-
     @Autowired
     private CryptoService cryptoService;
     @GetMapping("/cryptos")
