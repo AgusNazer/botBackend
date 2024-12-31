@@ -1,29 +1,27 @@
 package com.agusdev.bottrading.services;
 
-import com.agusdev.bottrading.entity.UserEntity;
-import com.agusdev.bottrading.repositories.UserRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.agusdev.bottrading.entity.SecurityUser;
+import com.agusdev.bottrading.entity.UserEntity;
+import com.agusdev.bottrading.repositories.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Aquí manejamos el Optional correctamente
         UserEntity user = userRepository.findByUsername(username)
-                                       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new SecurityUser(user);
     }
 }

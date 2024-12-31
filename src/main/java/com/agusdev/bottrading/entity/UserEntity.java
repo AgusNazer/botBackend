@@ -21,6 +21,8 @@ public class UserEntity {
     private String email;
 
     private String password;
+    
+    private String role;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -34,6 +36,7 @@ public class UserEntity {
         this.email = email;
         this.password = password;
         this.createdAt = LocalDateTime.now(); // Establece la fecha de creación al momento de la creación
+        this.role = role;
     }
 
     // Getters y Setters
@@ -75,5 +78,12 @@ public class UserEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

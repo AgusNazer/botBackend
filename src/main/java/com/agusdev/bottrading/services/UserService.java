@@ -2,53 +2,24 @@ package com.agusdev.bottrading.services;
 
 import com.agusdev.bottrading.entity.UserEntity;
 import com.agusdev.bottrading.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    // Obtener todos los usuarios
-    public List<UserEntity> getAllUsers() {
-    return userRepository.findAll();
-    }
+    public UserEntity registerUser(String username, String email, String password, String role) {
+        String encodedPassword = passwordEncoder.encode(password); // Codificar la contraseña
+        UserEntity user = new UserEntity(username, email, encodedPassword);
+        user.setRole(role);
 
-    // Obtener un usuario por ID
-    public Optional<UserEntity> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+        System.out.println("Usuario a registrar: " + user.getUsername() + ", " + user.getEmail() + ", " + user.getRole());  // Log para depuración
 
-    // Crear un nuevo usuario
-    public UserEntity createUser(UserEntity user) {
         return userRepository.save(user);
-    }
-
-    // Actualizar un usuario existente
-    public UserEntity updateUser(Long id, UserEntity userDetails) {
-        Optional<UserEntity> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            UserEntity existingUser = optionalUser.get();
-            existingUser.setUsername(userDetails.getUsername());
-            existingUser.setEmail(userDetails.getEmail());
-            existingUser.setPassword(userDetails.getPassword()); // Asegúrate de que la contraseña esté cifrada antes de guardarla
-            return userRepository.save(existingUser);
-        }
-        return null; // Si no se encuentra el usuario, retorna null
-    }
-
-    // Eliminar un usuario
-    public boolean deleteUser(Long id) {
-        Optional<UserEntity> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            userRepository.deleteById(id);
-            return true;
-        }
-        return false;
     }
 }
