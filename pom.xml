@@ -98,6 +98,12 @@
     <artifactId>jjwt</artifactId>
     <version>0.9.1</version>
 </dependency>
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.0.Final</version> <!-- Reemplaza con la última versión estable -->
+</dependency>
+
 
 
 

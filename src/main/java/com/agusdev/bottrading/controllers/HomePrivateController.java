@@ -18,7 +18,7 @@ public class HomePrivateController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Asegúrate de que el rol en la base de datos tenga el prefijo ROLE_
+    @PreAuthorize("hasAuthority('ADMIN')") // Asegúrate de que el rol en la base de datos tenga el prefijo ROLE_
     public String admin() {
         return "Admin: contenido exclusivo para administradores";
     }

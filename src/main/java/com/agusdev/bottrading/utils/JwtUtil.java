@@ -2,6 +2,7 @@ package com.agusdev.bottrading.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -9,22 +10,14 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "mi_clave_secreta"; // Cambia por una clave segura
+    private final String SECRET_KEY = "mi_clave_secreta";  // Cambia esto a una clave segura
 
-    public String generateToken(String username) {
+    public String generateToken(Authentication authentication) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(authentication.getName())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // Expira en 1 hora
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
-    }
-
-    public String validateToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
     }
 }
