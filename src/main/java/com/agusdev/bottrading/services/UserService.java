@@ -3,6 +3,9 @@ package com.agusdev.bottrading.services;
 import com.agusdev.bottrading.entity.UserEntity;
 import com.agusdev.bottrading.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +24,8 @@ public class UserService {
         System.out.println("Usuario a registrar: " + user.getUsername() + ", " + user.getEmail() + ", " + user.getRole());  // Log para depuración
 
         return userRepository.save(user);
+    }
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 }

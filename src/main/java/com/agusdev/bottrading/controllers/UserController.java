@@ -5,12 +5,14 @@ import com.agusdev.bottrading.services.UserService;
 // import com.agusdev.bottrading.utils.JwtUtil;  
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,9 +20,23 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
+
+
     private final UserService userService;
     private final AuthenticationManager authenticationManager; // Para autenticar al usuario
     // private final JwtUtil jwtUtil;
+
+    // get users - solo para el ADMIN
+@GetMapping("/all")
+@PreAuthorize("hasAuthority('ADMIN')") // Solo accesible para usuarios con rol ADMIN
+public ResponseEntity<?> getAllUsers() {
+    try {
+        List<UserEntity> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Error fetching users: " + e.getMessage());
+    }
+}
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Map<String, String> body) {
@@ -38,6 +54,21 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error registering user: " + e.getMessage());
         }
     }
+    @PostMapping("/create-admin")
+public ResponseEntity<String> createAdmin() {
+    try {
+        UserEntity admin = userService.registerUser(
+            "admin_user",
+            "admin@example.com",
+            "securePassword123",
+            "ADMIN"
+        );
+        return ResponseEntity.ok("Admin user created! ID: " + admin.getId());
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Error creating admin: " + e.getMessage());
+    }
+}
+
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Map<String, String> body) {

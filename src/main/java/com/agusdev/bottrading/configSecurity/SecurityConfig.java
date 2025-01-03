@@ -30,10 +30,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/v1/public/**").permitAll()
                         .requestMatchers("/api/users/register").permitAll()  // Permitir registro sin autenticación
+                        .requestMatchers("/api/users/create-admin").permitAll()  // Permitir registro sin autenticación
                         .requestMatchers("/v1/private/**").authenticated() // Requiere autenticación para rutas privadas
                         // Ruta para usuarios regulares
                         .requestMatchers("/v1/private/user").hasAuthority("USER")
                         .requestMatchers("/v1/private/admin").hasAuthority("ADMIN")  // Requiere el rol ADMIN
+                        .requestMatchers("/api/users/all").hasAuthority("ADMIN") // Solo ADMIN puede acceder
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .successHandler((httpServletRequest, httpServletResponse, authentication) -> {
